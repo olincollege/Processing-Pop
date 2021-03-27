@@ -2,5 +2,7 @@
 A computational essay on correlation of song Metadata with popularity
 
 Olin College Software Design
-Owners:
+
+### Project Creators:
+
 Vedaant Kuchhal and Benji Pugh
