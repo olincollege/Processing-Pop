@@ -3,7 +3,6 @@ Converts a list of Spotify track IDs to a json file containing all its audio fea
 """
 def id_to_duration(track_id_list):
     track_id_string = ",".join(track_id_list)
-    print(track_id_string)
     #track_id_string = track_id_dataframe.to_string()
     #print(track_id_string)
     import requests
