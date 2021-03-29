@@ -1,7 +1,11 @@
 """
-Converts an input track ID string to a json file containing its corresponding features.
+Converts a list of Spotify track IDs to a json file containing all its audio features.
 """
-def id_to_duration(track_id):
+def id_to_duration(track_id_list):
+    track_id_string = ",".join(track_id_list)
+    print(track_id_string)
+    #track_id_string = track_id_dataframe.to_string()
+    #print(track_id_string)
     import requests
 
     #Get the client and secret IDs from files stored and remove the newline
@@ -36,6 +40,6 @@ def id_to_duration(track_id):
     BASE_URL = 'https://api.spotify.com/v1/'
 
     # actual GET request with proper header
-    r = requests.get(BASE_URL + 'audio-features/' + track_id, headers=headers)
+    r = requests.get(BASE_URL + 'audio-features/?ids=' + track_id_string, headers=headers)
     r = r.json()
-    return(r['duration_ms'])
+    return(r)
