@@ -1,6 +1,6 @@
 """
 Web scrape through the Billboard website to find the Billboard Hot hundred
-playlist for each month from 1958 to 2021. To do so, we use an externally
+playlist for each year from 1958 to 2021. To do so, we use an externally
 downloaded python library called 'billboard' that interacts with the Billboard
 API.
 """
@@ -11,14 +11,13 @@ import pandas as pd
 import datetime
 
 """
-Return the Billboard Hot Hundred playlists for each month within the specified
+Return the Billboard Hot Hundred playlists for each year within the specified
 start and end years.
 
-Loop through the first day of the month for each month in each year of the
-specified time period, and extract the list of Billboard Hot Hundred songs on
-that date. This list is extracted by using the python library 'billboard'. All
-the various list of Hot Hundred songs for each month of each year are then
-returned as one big dataframe.
+Loop through the first day of the January for each year of the specified time
+period, and extract the list of Billboard Hot Hundred songs on that date. This
+list is extracted by using the python library 'billboard'. All the various list
+of Hot Hundred songs for each year are then returned as one big dataframe.
 
 Args:
     year_start: An integer between 1958 and 2021 that contains the starting
@@ -41,16 +40,15 @@ def hot_100_data(year_start, year_end):
 
     # Loop through every month of every year in the specified range.
     for year in range(year_start, year_end + 1):
-        for month in [i + 1  for i in range(12)]:
-            current_date = datetime.date(year, month, 1)
+        current_date = datetime.date(year, 1, 1)
 
-            # Extract the Billboard Hot Hundred chart for the specific date.
-            current_chart = \
-            billboard.ChartData("hot-100", date=current_date).entries
+        # Extract the Billboard Hot Hundred chart for the specific date.
+        current_chart = \
+        billboard.ChartData("hot-100", date=current_date).entries
 
-            # Convert the data into a more readable format
-            hot_100_by_date_dict[current_date] = convert_chart(current_chart)
-            hot_100_by_date = pd.DataFrame(hot_100_by_date_dict)
+        # Convert the data into a more readable format
+        hot_100_by_date_dict[current_date] = convert_chart(current_chart)
+    hot_100_by_date = pd.DataFrame(hot_100_by_date_dict)
     return hot_100_by_date
 
 
