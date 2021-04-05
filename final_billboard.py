@@ -42,7 +42,17 @@ def hot_100_data(year_start, year_end):
         current_chart = \
         billboard.ChartData("hot-100", date=current_date).entries
         for song in current_chart:
+            artist = clean_artist(song.artist)
             all_hot_100 = all_hot_100.append({"Date": current_date, \
-            "Song": song.title, "Artist": song.artist}, ignore_index=True)
+            "Song": song.title, "Artist": artist}, ignore_index=True)
 
     return all_hot_100
+
+def clean_artist(artist):
+    cleaned_artist = artist.lower()
+    # Define the strings that must be cleaned from the 
+    CLUTTERERS = [".", "&", "featuring ", "and ", "+", "?", "x ", "feat"]
+
+    for item in CLUTTERERS:
+        cleaned_artist = cleaned_artist.replace(item, "")
+    return cleaned_artist
