@@ -34,7 +34,7 @@ BASE_URL = 'https://api.spotify.com/v1/'
 
 
 def query_track(title, artist):
-    # Search Spotify for 
+    # Search Spotify for
     response = requests.get(BASE_URL + 'search', params={"q": f"{title} {artist}", "type": "track", "limit": 1}, headers=headers)
     response = response.json()
     # Transform the response into a single string as the Spotify id
@@ -45,18 +45,10 @@ def query_track(title, artist):
     return track_id
 
 def query_all_tracks(track_dataframe):
-    id_dataframe = track_dataframe.copy(deep=True)
-    id_list = []
-    date_list = []
+    id_only_dataframe = pd.DataFrame(columns=["Track ID"])
     for _, data in tqdm(track_dataframe.iterrows()):
         current_id = query_track(data["Song"], data["Artist"])
         if current_id != "Error: Not in Spotify":
-            id_list.append(current_id)
-            date_list.append(data["Date"])
-    
-
-    id_dataframe["Date"] = date_list
-    id_dataframe["Track ID"] = id_list
-
-
+            id_only_dataframe = id_only_dataframe.append({"Track ID" : current_id}, ignore_index=True)
+    id_dataframe = pd.concat([track_dataframe, id_only_dataframe], axis=1)
     return id_dataframe
