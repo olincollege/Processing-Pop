@@ -39,7 +39,24 @@ headers = {
 
 # base URL of all Spotify API endpoints
 BASE_URL = 'https://api.spotify.com/v1/'
-def id_to_duration(track_id_list):
+#
+# id_dataframe = pd.DataFrame([['Blah', 'Blah', '6y0igZArWVi6Iz0rj35c1Y'], \
+# ['Blahh', 'Blah', '6y0igZArWVi6Iz0rj35c1Y'], ['Blahhhh', 'Blah', '6y0igZArWVi6Iz0rj35c1Y'], \
+# ['Blahhhh', 'Blah', '6y0igZArWVi6Iz0rj35c1Y']], columns=['Song', 'Artist', 'Track ID'])
+
+def find_audio_features(id_dataframe):
+
+
+    track_id_master = id_dataframe["Track ID"].tolist()
+    audio_dataframe = id_to_audio_feature([track_id_master[0]])
+    track_id_master_split = [track_id_master[i:i+100] for i in range(1, len(track_id_master), 100)]
+    for list_section in track_id_master_split:
+        dataframe_section = id_to_audio_feature(list_section)
+        audio_dataframe = audio_dataframe.append(dataframe_section, ignore_index=True)
+    THE_dataframe = pd.concat([id_dataframe, audio_dataframe], axis=1)
+    return(THE_dataframe)
+
+def id_to_audio_feature(track_id_list):
     track_id_string = ",".join(track_id_list)
 
     # actual GET request with proper header
@@ -47,7 +64,8 @@ def id_to_duration(track_id_list):
     track_id_string, headers=headers)
     r = r.json()
 
-
     panda_data = pd.DataFrame.from_dict(r)
     panda_data_clean = pd.json_normalize(panda_data['audio_features'])
     return(panda_data_clean)
+
+#print(id_to_audio_feature(['6y0igZArWVi6Iz0rj35c1Y', '6y0igZArWVi6Iz0rj35c1Y', '6y0igZArWVi6Iz0rj35c1Y', '6y0igZArWVi6Iz0rj35c1Y']))
