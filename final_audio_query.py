@@ -9,6 +9,7 @@ batches of 100 (which conveniently happens to be the maximum length of one query
 """
 import pandas as pd
 import requests
+from tqdm.autonotebook import tqdm
 #Get the client and secret IDs from files stored and remove the newline
 with open('client_id.txt') as f:
     CLIENT_ID = str(f.read())
@@ -50,7 +51,7 @@ def find_audio_features(id_dataframe):
     track_id_master = id_dataframe["Track ID"].tolist()
     audio_dataframe = id_to_audio_feature([track_id_master[0]])
     track_id_master_split = [track_id_master[i:i+100] for i in range(1, len(track_id_master), 100)]
-    for list_section in track_id_master_split:
+    for list_section in tqdm(track_id_master_split):
         dataframe_section = id_to_audio_feature(list_section)
         audio_dataframe = audio_dataframe.append(dataframe_section, ignore_index=True)
     THE_dataframe = pd.concat([id_dataframe, audio_dataframe], axis=1)

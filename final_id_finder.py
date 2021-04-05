@@ -1,5 +1,6 @@
 import pandas as pd
 import requests
+from tqdm.autonotebook import tqdm
 #Get the client and secret IDs from files stored and remove the newline
 with open('client_id.txt') as f:
     CLIENT_ID = str(f.read())
@@ -47,7 +48,7 @@ def query_all_tracks(track_dataframe):
     id_dataframe = track_dataframe.copy(deep=True)
     id_list = []
     date_list = []
-    for _, data in track_dataframe.iterrows():
+    for _, data in tqdm(track_dataframe.iterrows()):
         current_id = query_track(data["Song"], data["Artist"])
         if current_id != "Error: Not in Spotify":
             id_list.append(current_id)

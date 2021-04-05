@@ -9,7 +9,7 @@ API.
 import billboard
 import pandas as pd
 import datetime
-
+from tqdm.autonotebook import tqdm
 """
 Return the Billboard Hot Hundred playlists for each year within the specified
 start and end years.
@@ -37,7 +37,7 @@ def hot_100_data(year_start, year_end):
 
     all_hot_100 = pd.DataFrame(columns=["Date", "Song", "Artist"])
 
-    for year in range(year_start, year_end + 1, 1):
+    for year in tqdm(range(year_start, year_end + 1, 1)):
         current_date = datetime.date(year, 6, 1)
         current_chart = \
         billboard.ChartData("hot-100", date=current_date).entries
