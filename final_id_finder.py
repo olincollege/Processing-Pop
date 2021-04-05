@@ -45,10 +45,9 @@ def query_track(title, artist):
     return track_id
 
 def query_all_tracks(track_dataframe):
-    id_only_dataframe = pd.DataFrame(columns=["Track ID"])
+    id_dataframe = pd.DataFrame(columns=["Date", "Song", "Artist", "Track ID"])
     for _, data in tqdm(track_dataframe.iterrows()):
         current_id = query_track(data["Song"], data["Artist"])
         if current_id != "Error: Not in Spotify":
-            id_only_dataframe = id_only_dataframe.append({"Track ID" : current_id}, ignore_index=True)
-    id_dataframe = pd.concat([track_dataframe, id_only_dataframe], axis=1)
+            id_dataframe = id_dataframe.append({"Date": data["Date"], "Song": data["Song"], "Artist": data["Artist"], "Track ID" : current_id}, ignore_index=True)
     return id_dataframe
