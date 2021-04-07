@@ -34,13 +34,21 @@ Returns:
 """
 def hot_100_data(year_start, year_end):
 
-
+    # Create an empty dataframe to store all the Billboard Hot 100 songs. The
+    # datapoints stored for each song is the date it featured on the Billboard
+    # Hot 100, the song's name, and the artist's name(s).
     all_hot_100 = pd.DataFrame(columns=["Date", "Song", "Artist"])
 
+    # Loop over each year in the specified time period.
     for year in tqdm(range(year_start, year_end + 1, 1)):
+
+        # Isolates the Billboard Hot 100 list on June 1st of that year.
         current_date = datetime.date(year, 6, 1)
         current_chart = \
         billboard.ChartData("hot-100", date=current_date).entries
+
+        # Loops through each song and 'cleans' the artist name of unnecessary
+        # symbols.
         for song in current_chart:
             artist = clean_artist(song.artist)
             all_hot_100 = all_hot_100.append({"Date": current_date, \
@@ -48,11 +56,30 @@ def hot_100_data(year_start, year_end):
 
     return all_hot_100
 
+"""
+Return the artist name in a reformatted form that is consistent across all
+songs that feature multiple artists.
+
+Convert the artists' names to lowercase, and remove strings such as ".", "&",
+"featuring ", "and ", "+", "?", "x ", and "feat", replacing them with
+whitespace. This makes it easier to keyword search the tracks in the Spotify
+API later on.
+
+Args:
+    artist: A string containing the name(s) of the artist(s) who perform or are
+    featured in any track.
+
+Returns:
+    A string containing the reformatted name(s) of the artist(s) in lowercase
+    without the unnecessary and confusing symbols used when there are multiple
+    artists.
+
+"""
 def clean_artist(artist):
     cleaned_artist = artist.lower()
     # Define the strings that must be cleaned from the
-    CLUTTERERS = [".", "&", "featuring ", "and ", "+", "?", "x ", "feat"]
+    CLUTTERERS = [".", "&", "featuring ", "and ", "+", "?", " x ", "feat"]
 
     for item in CLUTTERERS:
-        cleaned_artist = cleaned_artist.replace(item, "")
+        cleaned_artist = cleaned_artist.replace(item, " ")
     return cleaned_artist
