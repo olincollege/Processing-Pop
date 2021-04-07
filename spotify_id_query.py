@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 from tqdm.autonotebook import tqdm
+import time
 #Get the client and secret IDs from files stored and remove the newline
 with open('client_id.txt') as f:
     CLIENT_ID = str(f.read())
@@ -36,9 +37,15 @@ BASE_URL = 'https://api.spotify.com/v1/'
 def query_track(title, artist):
     # Search Spotify for
     response = requests.get(BASE_URL + 'search', params={"q": f"{title} {artist}", "type": "track", "limit": 1}, headers=headers)
-    response = response.json()
+
     # Transform the response into a single string as the Spotify id
     # First we must make sure spotify has found the track, so it doesn't result in errors later
+    while response.status_code != 200:
+        print("Failed Spotify Request")
+        time.sleep(1)
+        response = requests.get(BASE_URL + 'search', params={"q": f"{title} {artist}", "type": "track", "limit": 1}, headers=headers)
+
+    response = response.json()
     if response["tracks"]["items"] == []:
         return "Error: Not in Spotify"
     track_id = response["tracks"]["items"][0]["id"]
