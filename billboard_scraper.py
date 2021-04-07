@@ -50,7 +50,7 @@ def hot_100_data(year_start, year_end):
 
 def clean_artist(artist):
     cleaned_artist = artist.lower()
-    # Define the strings that must be cleaned from the 
+    # Define the strings that must be cleaned from the
     CLUTTERERS = [".", "&", "featuring ", "and ", "+", "?", "x ", "feat"]
 
     for item in CLUTTERERS:
