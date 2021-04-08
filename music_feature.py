@@ -2,7 +2,7 @@ import pandas as pd
 import datetime
 from tqdm.autonotebook import tqdm
 
-def average_by_date(start_date, end_date, song_dataframe, feature):
+def average_by_date(start_date, end_date, feature, song_dataframe):
     average_by_date = pd.DataFrame(columns=["Date", "Feature", "Average"])
 
     for year in tqdm(range(start_date, end_date + 1, 1)):
@@ -18,7 +18,7 @@ def average_by_date(start_date, end_date, song_dataframe, feature):
     return average_by_date
 
 
-def average_all(start_date, end_date, song_dataframe, features):
+def average_all(start_date, end_date, features, song_dataframe):
     average_all_features = pd.DataFrame(columns=["Date", "Feature", "Average"])
     for feature in features:
         current_averages = average_by_date(start_date, end_date, song_dataframe, feature)
