@@ -1,16 +1,15 @@
 import pandas as pd
 import datetime
 from tqdm.autonotebook import tqdm
-from data_compiler import master_dataframe
 
-def average_by_date(start_date, end_date, feature):
+def average_by_date(start_date, end_date, song_dataframe, feature):
     average_by_date = pd.DataFrame(columns=["Date", "Feature", "Average"])
 
     for year in tqdm(range(start_date, end_date + 1, 1)):
         current_date = datetime.date(year, 6, 1)
         current_sum = 0
         count = 0
-        for _, data in master_dataframe.iterrows():
+        for _, data in song_dataframe.iterrows():
             if data["Date"] == str(current_date):
                 current_sum += data[feature]
                 count += 1
@@ -19,10 +18,10 @@ def average_by_date(start_date, end_date, feature):
     return average_by_date
 
 
-def average_all(start_date, end_date, features):
+def average_all(start_date, end_date, song_dataframe, features):
     average_all_features = pd.DataFrame(columns=["Date", "Feature", "Average"])
     for feature in features:
-        current_averages = average_by_date(start_date, end_date, feature)
+        current_averages = average_by_date(start_date, end_date, song_dataframe, feature)
         average_all_features = pd.concat([average_all_features, current_averages])
     return average_all_features
 
