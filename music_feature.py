@@ -21,27 +21,16 @@ def average_by_date(start_date, end_date, feature, song_dataframe):
 def average_all(start_date, end_date, features, song_dataframe):
     average_all_features = pd.DataFrame(columns=["Date", "Feature", "Average"])
     for feature in features:
-        current_averages = average_by_date(start_date, end_date, song_dataframe, feature)
+        current_averages = average_by_date(start_date, end_date, feature, song_dataframe)
         average_all_features = pd.concat([average_all_features, current_averages])
     return average_all_features
 
-def key_proportion(start_date, end_date):
-    key_name_list = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-    key_dataframe = pd.DataFrame(columns=["Date", "Key", "Count", "Proportion"])
-    for year in tqdm(range(1961,2021,1)):
-        current_date = str(datetime.date(year, 6, 1))
-        for current_key in key_name_list:
-            count = 0
-            year_count = 0
-            for _, data in master_dataframe.iterrows():
-                if current_date == data["Date"]:
-                    year_count += 1
-                    if data["key"] == key_name_list.index(current_key):
-                        count += 1
-
-            key_dataframe = key_dataframe.append({"Date": current_date, "Key": current_key, "Count":count, "Proportion":count/year_count}, ignore_index=True)
-
-    # print(key_dataframe)
-    # import plotly.express as px
-    # fig = px.bar(key_dataframe, x="Date", y="Proportion", color="Key", title="Keys Over Time")
-    # fig.show()
+def key_proportion(start_date, end_date, song_dataframe):
+    year_list = [str(datetime.date(year, 6, 1)) for year in range(start_date, end_date+1)]
+    time_span_dataframe = song_dataframe[song_dataframe.Date.isin(year_list)]
+    key_dataframe = time_span_dataframe.groupby(by=["Date","key"]).count()
+    key_dataframe = key_dataframe.drop(key_dataframe.columns[range(1,len(key_dataframe.columns))], axis=1)
+    key_proportion = key_dataframe.groupby(level=0).apply(lambda x: x/float(x.sum()))
+    key_dataframe_final = pd.concat([key_dataframe, key_proportion], axis=1).reset_index()
+    key_dataframe_final.columns = ["Date", "Key", "Count", "Proportion"]
+    return(key_dataframe_final)
