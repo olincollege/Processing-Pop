@@ -22,7 +22,7 @@ def average_all(start_date, end_date, features, song_dataframe):
     average_all_features = pd.DataFrame(columns=["Date", "Feature", "Average"])
     for feature in features:
         current_averages = average_by_date(start_date, end_date, feature, song_dataframe)
-        average_all_features = pd.concat([average_all_features, current_averages])
+        average_all_features = pd.concat([average_all_features, current_averages], ignore_index=True)
     return average_all_features
 
 KEY_NAME_LIST = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]

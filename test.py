@@ -99,8 +99,8 @@ multi_average_dataframe_6 = pd.DataFrame(multi_average_dict_6)
 
 test_dict_7 = {"Date": [str(datetime.date(2019, 6, 1)), str(datetime.date(2019, 6, 1)), str(datetime.date(2020, 6, 1)), str(datetime.date(2020, 6, 1))], "Loudness": [0.1, 0.3, 0.8, 1.0], "Duration": [5.0, 7.0, 30.0, 40.0]}
 test_dataframe_7 = pd.DataFrame(test_dict_7)
-multi_average_dict_7 = {"Date": [datetime.date(2019, 6, 1), datetime.date(2020, 6, 1), datetime.date(2019, 6, 1), datetime.date(2020, 6, 1)], "Feature": ["Loudness", "Duration"], "Average": [0.2, 0.9, 6.0, 35.0]}
-multi_average_dataframe_7 = pd.DataFrame(multi_average_dict_6)
+multi_average_dict_7 = {"Date": [datetime.date(2019, 6, 1), datetime.date(2020, 6, 1), datetime.date(2019, 6, 1), datetime.date(2020, 6, 1)], "Feature": ["Loudness", "Loudness", "Duration", "Duration"], "Average": [0.2, 0.9, 6.0, 35.0]}
+multi_average_dataframe_7 = pd.DataFrame(multi_average_dict_7)
 
 average_all_cases = [
     # Test that a single year, single feature, single item dataframe yields the
@@ -110,7 +110,7 @@ average_all_cases = [
     # the correct averages
     (2020, 2020, ["Loudness", "Duration"], test_dataframe_6, multi_average_dataframe_6),
     # Test that multiple year, multiple feature, multiple item dataframe yields
-    (2020, 2020, ["Loudness", "Duration"], test_dataframe_7, multi_average_dataframe_7),
+    (2019, 2020, ["Loudness", "Duration"], test_dataframe_7, multi_average_dataframe_7),
     # Since this function calls average_by_date, there isn't very much need to test
     # the specifics of individual behaviors.
 ]
