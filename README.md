@@ -18,13 +18,13 @@ To install these libraries, use the following code in your terminal emulator:
 pip install pandas datetime requests pytest tqdm billboard.py plotly
 ```
 ## Necessary Changes
-We have provided our dataset as a CSV which you can load without any changes to the jupyter notebook. However, if you would like to generate the data from scratch (not recommended as it takes quite long and spotify occasionally fails), you can use the following directions:
+We have provided our dataset as a CSV which you can load without any changes to the jupyter notebook. However, if you would like to generate the data from scratch (not recommended as it takes quite long and Spotify occasionally fails), you can use the following directions:
 
 ### Sign up for API token
-Spotify requires that you sign in with a client and secret id. Follow the instructions here: https://developer.spotify.com/dashboard/login to obtain a client and secret id.
+Spotify requires that you sign in with a client and secret ID. Follow the instructions here: https://developer.spotify.com/dashboard/login to obtain a client and secret ID.
 
 ### Create id files
-Create a file named client_id.txt and paste your client id in with a new line directly after. Create a file named secret_id.txt and do the same with your secret id.
+Create a file named client_id.txt and paste your client ID in with a new line directly after. Create a file named secret_id.txt and do the same with your secret ID.
 
 ### Uncomment Code
 In the Jupyter notebook, uncomment the code following these headings:
@@ -34,11 +34,12 @@ In the Jupyter notebook, uncomment the code following these headings:
 
 In addition, to use the data you have generated, comment out the lines under "Finding Averages" which the comments tell you to.
 
-To obtain identical data to our results, you must perform the previous steps and run the jupyter notebook.
+
 ## Using Jupyter Notebooks (Important)
 Some elements do not work in Jupyter Labs:
 * TQDM
 * Plotly
+
 Please run in VSCode or if necessary Jupyter Notebooks
 Warning: Ignore TQDM errors in Jupyter Notebooks, TQDM only works in VSCode.
 
@@ -56,4 +57,4 @@ https://plotly.com/python/bar-charts/
 
 Vedaant Kuchhal and Benji Pugh
 
-*Olin College Software Design*
+*Olin College Software Design Spring 2021*

@@ -5,33 +5,35 @@ downloaded python library called 'billboard' that interacts with the Billboard
 API.
 """
 
-# Imports the required libraries.
-import billboard
-import pandas as pd
+# Import the required libraries.
 import datetime
-from tqdm.autonotebook import tqdm
+import pandas as pd
+import billboard
+from tqdm import tqdm
 
 def hot_100_data(year_start, year_end):
     """
-    Return the Billboard Hot Hundred playlists for each year within the specified
-    start and end years.
+    Return the Billboard Hot Hundred playlists for each year within the
+    specified start and end years.
 
     Loop through the first day of June for each year of the specified time
-    period, and extract the list of Billboard Hot Hundred songs on that date. This
-    list is extracted by using the python library 'billboard'. All the various list
-    of Hot Hundred songs for each year are then returned as one big dataframe.
+    period, and extract the list of Billboard Hot Hundred songs on that date.
+    This list is extracted by using the python library 'billboard'. All the
+    various list of Hot Hundred songs for each year are then returned as one
+    big dataframe.
 
     Args:
         year_start: An integer between 1958 and 2021 that contains the starting
-        year of the time period for which the Billboard Hot 100 charts are queried.
+        year of the time period for which the Billboard Hot 100 charts are
+        queried.
 
         year_end: An integer between 1958 and 2021 that must be greater than or
-        equal to year_start that contains the ending year of the time period for
-        which the Billboard Hot 100 charts are queried.
+        equal to year_start that contains the ending year of the time period
+        for which the Billboard Hot 100 charts are queried.
 
     Returns:
-        A pandas dataframe containing columns with the Date, Song, and Artist for
-        every Billboard Hot 100 Song on June 1st of the years specified.
+        A pandas dataframe containing columns with the Date, Song, and Artist
+        for every Billboard Hot 100 Song on June 1st of the years specified.
 
     """
 
@@ -57,30 +59,32 @@ def hot_100_data(year_start, year_end):
 
     return all_hot_100
 
+# Define the substrings that must be cleaned from the artists' name.
+CLUTTERERS = [".", "&", "featuring ", "and ", "+", "?", " x ", "feat"]
 
 def clean_artist(artist):
     """
     Return the artist name in a reformatted form that is consistent across all
     songs that feature multiple artists.
 
-    Convert the artists' names to lowercase, and remove strings such as ".", "&",
-    "featuring ", "and ", "+", "?", "x ", and "feat", replacing them with
-    whitespace. This makes it easier to keyword search the tracks in the Spotify
-    API later on.
+    Convert the artists' names to lowercase, and remove strings such as ".",
+    "&", "featuring ", "and ", "+", "?", " x ", and "feat", replacing them with
+    whitespace. This makes it easier to keyword search the tracks in the
+    Spotify API later on.
 
     Args:
-        artist: A string containing the name(s) of the artist(s) who perform or are
-        featured in any track.
+        artist: A string containing the name(s) of the artist(s) who perform or
+        are featured in any track.
 
     Returns:
-        A string containing the reformatted name(s) of the artist(s) in lowercase
-        without the unnecessary and confusing symbols used when there are multiple
-        artists.
+        A string containing the reformatted name(s) of the artist(s) in
+        lowercase without the unnecessary and confusing symbols used when there
+        are multiple artists.
 
     """
+
+    # Converts artist(s) name string to lowercase.
     cleaned_artist = artist.lower()
-    # Define the substrings that must be cleaned from the artists' name.
-    CLUTTERERS = [".", "&", "featuring ", "and ", "+", "?", " x ", "feat"]
 
     # Cleans out the artist's name by removing the substrings specified above.
     for item in CLUTTERERS:
