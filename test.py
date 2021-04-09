@@ -47,10 +47,12 @@ query_track_cases = [
 ]
 
 # Construct test DataFrames for average_by_date()
+
 test_dict_1 = {"Date": [str(datetime.date(2020, 6, 1))], "Loudness": [0.1]}
 test_dataframe_1 = pd.DataFrame(test_dict_1)
 single_average_dict_1 = {"Date": [datetime.date(2020, 6, 1)], "Feature": ["Loudness"], "Average": [0.1], }
 single_average_dataframe_1 = pd.DataFrame(single_average_dict_1)
+
 
 test_dict_2 = {"Date": [str(datetime.date(2020, 6, 1)), str(datetime.date(2020, 6, 1))], "Loudness": [0.1, 0.3]}
 test_dataframe_2 = pd.DataFrame(test_dict_2)
@@ -116,20 +118,48 @@ average_all_cases = [
 ]
 
 # Construct test DataFrames for key_proportion()
-# test_dict_8 = {"Date": [str(datetime.date(2020, 6, 1))], "Key": ["A"]}
-# test_dataframe_8 = pd.DataFrame(test_dict_8)
-# single_average_dict_8 = {"Date": [datetime.date(2020, 6, 1)], "Key": ["A"], "Count": [1], "Proportion":}
-# single_average_dataframe_8 = pd.DataFrame(single_average_dict_8)
+test_dict_8 = {"Date": [str(datetime.date(2020, 6, 1))], "key": [0], "duration":[5]}
+test_dataframe_8 = pd.DataFrame(test_dict_8)
+key_dict_8 = {"Date": [str(datetime.date(2020, 6, 1))], "Key": ["C"], "Count": [1], "Proportion":[1.0]}
+key_dataframe_8 = pd.DataFrame(key_dict_8)
+
+test_dict_9 = {"Date": [str(datetime.date(2020, 6, 1)), str(datetime.date(2019, 6, 1))], "key": [0,2], "duration":[5,5]}
+test_dataframe_9 = pd.DataFrame(test_dict_9)
+key_dict_9 = {"Date": [str(datetime.date(2019, 6, 1)), str(datetime.date(2020, 6, 1))], "Key": ["D", "C"], "Count": [1, 1], "Proportion":[1.0, 1.0]}
+key_dataframe_9 = pd.DataFrame(key_dict_9)
+
+test_dict_10 = {"Date": [str(datetime.date(2020, 6, 1)), str(datetime.date(2020, 6, 1)), str(datetime.date(2019, 6, 1))], "key": [0,2,2], "duration":[5,5,5]}
+test_dataframe_10 = pd.DataFrame(test_dict_10)
+key_dict_10 = {"Date": [str(datetime.date(2019, 6, 1)), str(datetime.date(2020, 6, 1)), str(datetime.date(2020, 6, 1))], "Key": ["D", "C", "D"], "Count": [1, 1, 1], "Proportion":[1.0, 0.5,0.5]}
+key_dataframe_10 = pd.DataFrame(key_dict_10)
+
+test_dict_11 = {"Date": [str(datetime.date(2020, 6, 1)), str(datetime.date(2020, 6, 1))], "key": [0,0], "duration":[5,5]}
+test_dataframe_11 = pd.DataFrame(test_dict_11)
+key_dict_11 = {"Date": [str(datetime.date(2020, 6, 1))], "Key": ["C"], "Count": [2], "Proportion":[1.0]}
+key_dataframe_11 = pd.DataFrame(key_dict_11)
+
+
+
+key_proportion_cases = [
+    # Test that a single key in a single year returns a proportion of 1.0
+    (2020, 2020, test_dataframe_8, key_dataframe_8),
+    # Test that a single key in multiple years returns correctly
+    (2019, 2020, test_dataframe_9, key_dataframe_9),
+    # Test that multiple keys in multiple years returns correctly
+    (2019, 2020, test_dataframe_10, key_dataframe_10),
+    # Test that a single repeated key returns a proportion of 1.0
+    (2020, 2020, test_dataframe_11, key_dataframe_11)
+]
 
 # Test clean_artist()
 @pytest.mark.parametrize("artist,cleaned_artist", clean_artist_cases)
 def test_clean_artist(artist, cleaned_artist):
     assert clean_artist(artist) == cleaned_artist
 
-# Test query_track()
-@pytest.mark.parametrize("title,artist,track_id", query_track_cases)
-def test_query_track(title, artist, track_id):
-    assert query_track(title, artist) == track_id
+# # Test query_track(). Uncomment if following README's directions on Spotify
+# @pytest.mark.parametrize("title,artist,track_id", query_track_cases)
+# def test_query_track(title, artist, track_id):
+#     assert query_track(title, artist) == track_id
 
 # Test average_by_date
 @pytest.mark.parametrize("start_date,end_date,feature,song_dataframe,date_average", average_by_date_cases)
@@ -141,3 +171,7 @@ def test_average_by_date(start_date, end_date, feature, song_dataframe, date_ave
 def test_average_all(start_date, end_date, features, song_dataframe, date_average):
     assert average_all(start_date, end_date, features, song_dataframe).equals(date_average)
 
+# Test key_proportion()
+@pytest.mark.parametrize("start_date,end_date,song_dataframe,key_dataframe", key_proportion_cases)
+def test_key_proportion(start_date, end_date, song_dataframe, key_dataframe):
+    assert key_proportion(start_date, end_date, song_dataframe).equals(key_dataframe)
