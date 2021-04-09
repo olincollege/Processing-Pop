@@ -1,4 +1,4 @@
-# Popus-Songus
+# Processing Pop
 ## Processing Pop History
 A computational essay on tracking the history of multiple different musical features over the last 60 years.
 We used a Billboard scraper in addition to Spotify's API to obtain over 6000 Songs and Spotify's algorithmically determined [features](https://developer.spotify.com/documentation/web-api/reference/#category-tracks). With that data, we visualized the change in these features.
