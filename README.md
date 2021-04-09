@@ -34,8 +34,6 @@ In the Jupyter notebook, uncomment the code following these headings:
 
 In addition, to use the data you have generated, comment out the lines under "Finding Averages" which the comments tell you to.
 
-You may also uncomment the "test_query_track" code in test.py to test out spotify querying.
-
 To obtain identical data to our results, you must perform the previous steps and run the jupyter notebook. You can save the obtained data as a csv through the following code pasted and run at the end of the notebook:
 ```
 song_audio_data.to_csv('track_features_by_date')
