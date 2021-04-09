@@ -34,10 +34,7 @@ In the Jupyter notebook, uncomment the code following these headings:
 
 In addition, to use the data you have generated, comment out the lines under "Finding Averages" which the comments tell you to.
 
-To obtain identical data to our results, you must perform the previous steps and run the jupyter notebook. You can save the obtained data as a csv through the following code pasted and run at the end of the notebook:
-```
-song_audio_data.to_csv('track_features_by_date')
-```
+To obtain identical data to our results, you must perform the previous steps and run the jupyter notebook.
 ## Using Jupyter Notebooks (Important)
 Some elements do not work in Jupyter Labs:
 * TQDM
