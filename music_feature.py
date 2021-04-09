@@ -25,6 +25,7 @@ def average_all(start_date, end_date, features, song_dataframe):
         average_all_features = pd.concat([average_all_features, current_averages])
     return average_all_features
 
+KEY_NAME_LIST = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 def key_proportion(start_date, end_date, song_dataframe):
     year_list = [str(datetime.date(year, 6, 1)) for year in range(start_date, end_date+1)]
     time_span_dataframe = song_dataframe[song_dataframe.Date.isin(year_list)]
@@ -33,4 +34,5 @@ def key_proportion(start_date, end_date, song_dataframe):
     key_proportion = key_dataframe.groupby(level=0).apply(lambda x: x/float(x.sum()))
     key_dataframe_final = pd.concat([key_dataframe, key_proportion], axis=1).reset_index()
     key_dataframe_final.columns = ["Date", "Key", "Count", "Proportion"]
+    key_dataframe_final["Key"] = key_dataframe_final["Key"].replace(range(12), KEY_NAME_LIST)
     return(key_dataframe_final)
