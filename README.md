@@ -38,6 +38,13 @@ To obtain identical data to our results, you must perform the previous steps and
 ```
 song_audio_data.to_csv('track_features_by_date')
 ```
+## Using Jupyter Notebooks (Important)
+Some elements do not work in Jupyter Labs:
+* TQDM
+* Plotly
+Please run in VSCode or if necessary Jupyter Notebooks
+Warning: Ignore TQDM errors in Jupyter Notebooks, TQDM only works in VSCode.
+
 
 ## Plotting
 We used Plotly (in particular, plotly express) to graph our data. Because we stored our data in Dataframes, no further processing is required past our averaging functions run in the Jupyter Notebook.
